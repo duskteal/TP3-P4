@@ -1,6 +1,6 @@
 import express from 'express';
-import { verificarValidaciones } from './validaciones.js';
-import { db } from '../config/db.js';
+import { verificarValidaciones } from '../validaciones.js'
+import { db } from '../../config/db.js';
 import { body } from 'express-validator';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
@@ -37,7 +37,6 @@ router.post(
       .isString()
         .withMessage('El valor debe ser de mínimo 8 caracteres y al menos un número'),
   ],
-  verificarValidaciones,
   async (req, res) => {
     const { email, password } = req.body;
 

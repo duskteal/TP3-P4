@@ -5,5 +5,7 @@ Dependencias:
     express-validator
     mysql2
     passport
+    passport-jwt
+    jsonwebtoken
     bcrypt
     cors

@@ -8,15 +8,18 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "backend": "node --env-file=.env --watch ./back-end/index.js"
+    "backend": "node --env-file=.env --watch backend/src/index.js",
+    "frontend": "node --env-file=.env --watch frontend/src/main.js"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
     "cors": "^2.8.6",
     "express": "^5.3.0",
     "express-validator": "^7.3.2",
+    "jsonwebtoken": "^9.0.3",
     "mysql2": "^3.24.6",
     "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   },

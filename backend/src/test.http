@@ -1,0 +1,69 @@
+@url=http://localhost:3000
+
+### Login con admin
+
+# @name login
+POST {{url}}/auth/login
+Content-Type: application/json
+
+{
+    "email": "mariano@gmail.com",
+    "password": "minecraft123"
+}
+
+
+### Login sin admin
+
+# @name login
+POST {{url}}/auth/login
+Content-Type: application/json
+
+{
+    "email": "vicky@gmail.com",
+    "password": "pomelo123"
+}
+
+###
+
+@token = {{login.response.body.token}}
+
+###
+
+### Consultar todos usuarios
+GET {{url}}/usuarios
+Authorization: Bearer {{token}}
+
+### Consultar usuario por ID
+GET {{url}}/usuarios/1
+Authorization: Bearer {{token}}
+
+### Cargar usuario nuevo
+POST {{url}}/usuarios
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "nombre": "Gonzalo",
+    "email": "gonza@gmail.com",
+    "password":"tornado666",
+    "esAdmin": false
+}
+
+### Editar usuario total
+
+PUT {{url}}/usuarios/3
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "nombre": "Gonza",
+    "email": "gonzalito22@gmail.com",
+    "password":"pantera222",
+    "esAdmin": true
+}
+
+### Eliminar usuario
+
+DELETE {{url}}/usuarios/6
+Authorization: Bearer {{token}}
+

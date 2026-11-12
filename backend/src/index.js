@@ -1,7 +1,7 @@
 import express from 'express'
 import { conectarDB } from './config/db.js'
 import usuariosRouter from './middleware/rutas/usuarios.js';
-import authRouter, { authConfig } from './middleware/auth.js'
+import authRouter, { authConfig } from './middleware/rutas/auth.js'
 const app = express();
 
 const port = process.env.DB_PORT

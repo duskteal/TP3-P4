@@ -2,7 +2,7 @@ import { validationResult, body, param } from 'express-validator';
 import passport from 'passport'
 
 export const validarAutenticacion = passport.authenticate("jwt", {
-  session: true,
+  session: false,
 });
 
 
@@ -12,7 +12,7 @@ export const validarId = param("id")
 
 export const validarUsuario = [
     body('nombre')
-        .isAlphanumeric("es-ES")
+        .isAlpha("es-ES")
         .withMessage('Solo se permiten letras y numeros')
         .isLength({ min: 1, max: 25})
         .withMessage('Solo se permiten entre 1 y 25 caracteres'),
