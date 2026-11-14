@@ -24,7 +24,7 @@ export function authConfig(){
 };
 
 router.post(
-  "/login",
+  "/",
   [
     body('email')
       .not().isEmpty()

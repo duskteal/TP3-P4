@@ -12,7 +12,7 @@ const router = express.Router();
 router.get('/', validarAutenticacion, verificarValidaciones, async (req, res) => {
   
   if (!req.user.esAdmin) {
-      return res.status(401).send("Usuario no autorizado");
+      return res.status(403).send("Usuario no autorizado");
     }
 
   const [usuarios] = await db.execute(
@@ -31,7 +31,7 @@ router.get(
   async (req, res) => {
 
     if (!req.user.esAdmin) {
-      return res.status(401).send("Usuario no autorizado");
+      return res.status(403).send("Usuario no autorizado");
     }
 
     const id = parseInt(req.params.id);
@@ -44,14 +44,14 @@ router.get(
       return res.status(404).json("Usuario no encontrado");
     }
 
-    return res.status(201).json(usuarios[0]);
+    return res.status(200).json(usuarios[0]);
   }
 );
 
 router.post('/', validarAutenticacion, validarUsuario, verificarValidaciones, async (req, res) => {
  
     if (!req.user.esAdmin) {
-      return res.status(401).send("Usuario no autorizado");
+      return res.status(403).send("Usuario no autorizado");
     }
 
     const { nombre, email, password, esAdmin } = req.body;
@@ -77,7 +77,7 @@ router.put(
   async (req, res) => {
 
     if (!req.user.esAdmin) {
-      return res.status(401).send("Usuario no autorizado");
+      return res.status(403).send("Usuario no autorizado");
     }
     const id = parseInt(req.params.id);
 
@@ -106,7 +106,7 @@ router.delete(
   async (req, res) => {
 
     if (!req.user.esAdmin) {
-      return res.status(401).send("Usuario no autorizado");
+      return res.status(403).send("Usuario no autorizado");
     };
 
     const id = parseInt(req.params.id);
@@ -120,7 +120,7 @@ router.delete(
     }
     await db.execute('DELETE FROM usuarios WHERE id=?', [id]);
 
-    return res.status(200).send('Usuario eliminado.')
+    return res.status(204)
   }
 );
 export default router;
