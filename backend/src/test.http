@@ -47,8 +47,7 @@ Content-Type: application/json
     "esAdmin": false
 }
 
-### Editar usuario total
-
+### Editar usuario
 PUT {{url}}/usuarios/3
 Authorization: Bearer {{token}}
 Content-Type: application/json
@@ -70,21 +69,108 @@ Authorization: Bearer {{token}}
 GET {{url}}/vehiculos
 Authorization: Bearer {{token}}
 
-###
+### Consultar vehiculo por ID
 
-GET {{url}}/vehiculos/1
+GET {{url}}/vehiculos/2
 Authorization: Bearer {{token}}
 
-###
+### Cargar vehiculo
 
 POST {{url}}/vehiculos
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-    "marca": "Scania",
-    "modelo": "113",
-    "patente":"JSB108",
-    "anio": 2015,
-    "capacidad_carga": 45000
+    "marca": "Mercedes-Benz",
+    "modelo": "Atego",
+    "patente":"HTB283",
+    "anio": 2021,
+    "capacidad_carga": 78000
 }
+
+### Actualizar vehículo
+PUT {{url}}/vehiculos/6
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "marca": "Mercedes-Benz",
+    "modelo": "Atego v2",
+    "patente":"LGP943",
+    "anio": 2020,
+    "capacidad_carga": 87000
+}
+
+### Eliminar vehículo
+DELETE {{url}}/vehiculos/8
+Authorization: Bearer {{token}}
+
+### Ver listado de conductores
+GET {{url}}/conductores
+Authorization: Bearer {{token}}
+
+### Ver listado de conductores por ID
+GET {{url}}/conductores/1
+Authorization: Bearer {{token}}
+
+### Carga de conductor
+POST {{url}}/conductores
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "nombre": "Franco",
+    "apellido": "Colapinto",
+    "numero_documento": 44223423,
+    "numero_licencia": 24426424, 
+    "fecha_alta_licencia": "2022-03-22",
+    "fecha_vencimiento_licencia": "2027-03-22"
+}
+
+### Editar conductor
+PUT {{url}}/conductores/5
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "nombre": "Fernando",
+    "apellido": "Alonso",
+    "numero_documento": 25533254,
+    "numero_licencia": 94234223, 
+    "fecha_alta_licencia": "2021-04-13",
+    "fecha_vencimiento_licencia": "2026-12-30"
+}
+
+### Eliminar conductor
+DELETE {{url}}/conductores/5
+Authorization: Bearer {{token}}
+
+### Listar viajes
+GET {{url}}/viajes
+Authorization: Bearer {{token}}
+
+### Listar viajes por ID
+GET {{url}}/viajes/2
+Authorization: Bearer {{token}}
+
+### Buscar viajes por ID de vehículo e ID de conductor
+GET {{url}}/viajes?vehiculoId=w&conductorId=5
+Authorization: Bearer {{token}}
+
+### Crear viaje
+POST {{url}}/viajes
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "vehiculo_id": 2,
+    "conductor_id": 1,
+    "fecha_salida": "2026-06-15",
+    "fecha_llegada": "2026-06-17",
+    "origen": "Sepang 1999, Ciudad Autónoma de Buenos Aires",
+    "destino": "Mónaco 1988, Purmamarca, Jujuy",
+    "kilometros": 1425,
+    "observaciones": "El camión venía arrastrando un ovni chocado hace 200 km."    
+}
+
+### No se puede editar ni borrar un viaje. No hay PUT ni DELETE.

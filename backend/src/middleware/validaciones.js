@@ -1,10 +1,10 @@
-import { validationResult, body, param } from 'express-validator';
+import express from 'express';
+import { validationResult, body, param, query } from 'express-validator';
 import passport from 'passport'
 
 export const validarAutenticacion = passport.authenticate("jwt", {
   session: false,
 });
-
 
 export const validarId = param("id")
     .isInt({ min: 1})
@@ -35,57 +35,75 @@ export const validarUsuario = [
 
 export const validarVehiculo = [
     body('marca')
-        .isAlpha('es-ES')
-        .withMessage('Solo se permiten letras')
+        .optional()
+        .isString()
         .isLength({ min: 1, max: 20})
         .withMessage('Solo se permiten entre 1 y 20 caracteres'),
     body('modelo')
-        .isAlphanumeric('es-ES')
-        .withMessage('Solo se permiten letras y numeros')
+        .optional()
+        .isString()
         .isLength({ min: 1, max: 20})
         .withMessage('Solo se permiten entre 1 y 20 caracteres'),
     body('patente')
+        .optional()
         .isLicensePlate('es-AR')
         .withMessage('Solo se permiten patentes con formato de Argentina'),
     body('anio')
+        .optional()
         .isInt( { min: 1900 }) // a menos que maneje una carreta, raro que sea modelo anterior
-        .withMessage('Solo se permiten numeros')
+        .withMessage('Solo se permiten números mayores a 1900')
         .isLength({ min: 4, max: 4})
         .withMessage('Solo se permiten 4 caracteres en el campo'),
     body('capacidad_carga')
-        .isLength( {min: 1, max: 5} )
-        .withMessage('Solo se permiten entre 1 y 5 caracteres')
-        .isNumeric( {min: 1, max: 40000})
-        .withMessage('Solo se permiten valores numéricos entre 1 y 40000')
+        .optional()
+        .isLength( {min: 1, max: 6} )
+        .withMessage('Solo se permiten entre 1 y 6 caracteres')
+        .isFloat( {min: 0, max: 150000})
+        .withMessage('Solo se permiten valores numéricos entre 0 y 150000')
 ];
 
 export const validarConductor = [
     body('nombre')
+        .optional()
         .isAlpha('es-ES')
         .withMessage('Solo se permiten letras')
         .isLength( { min: 1, max: 20} )
         .withMessage('Solo se permiten entre 1 y 20 caracteres'),
     body('apellido')
+        .optional()
         .isAlpha('es-ES')
         .withMessage('Solo se permiten letras')
         .isLength( { min: 1, max: 20} )
         .withMessage('Solo se permiten entre 1 y 20 caracteres'),
     body('numero_documento')
+        .optional()
         .isInt( { min: 0 })
         .withMessage('Solo se permiten números')
         .isLength( { min: 8, max: 8})
         .withMessage('Solo se permiten 8 caracteres'),
     body('numero_licencia')
+        .optional()
         .isInt( { min: 0 })
         .withMessage('Solo se permiten números')
         .isLength( { min: 8, max: 8 } ) // NOTA: No sé que licencia es, supondremos 8 caracteres
         .withMessage('Solo se permiten 8 caracteres'),
     body('fecha_alta_licencia')
-        .isDate({ format: 'DD-MM-YYYY', strictMode: false })
-        .withMessage('Solo se permite una fecha de formato DD-MM-YYYY'),
+        .optional()
+        .isDate({ format: 'YYYY-MM-DD', strictMode: false })
+        .withMessage('Solo se permite una fecha de formato YYYY-MM-DD'),
     body('fecha_vencimiento_licencia')
-        .isDate({ format: 'DD-MM-YYYY', strictMode: false })
-        .withMessage('Solo se permite una fecha de formato DD-MM-YYYY')
+        .optional()
+        .isDate({ format: 'YYYY-MM-DD', strictMode: false })
+        .custom((vencimiento, { req }) => {
+                const alta = req.body.fecha_alta_licencia;
+
+                if (new Date(vencimiento) <= new Date(alta)) {
+                  throw new Error('La fecha de vencimiento de la licencia debe ser posterior a su fecha de alta.');
+                }
+            
+                return true;
+            }
+        )
 ]
 
 export const validarViaje = [
@@ -96,21 +114,30 @@ export const validarViaje = [
         .isInt( { min: 1 })
         .withMessage('Solo se permite números positivos'),
     body('fecha_salida')
-        .isDate({ format: 'DD-MM-YYYY', strictMode: false })
-        .withMessage('Solo se permite una fecha de formato DD-MM-YYYY'),
+        .isDate({ format: 'YYYY-MM-DD', strictMode: false })
+        .withMessage('Solo se permite una fecha de formato YYYY-MM-DD'),
     body('fecha_llegada')
-        .isDate({ format: 'DD-MM-YYYY', strictMode: false })
-        .withMessage('Solo se permite una fecha de formato DD-MM-YYYY'),
+        .isDate({ format: 'YYYY-MM-DD', strictMode: false })
+        .custom((llegada, { req }) => {
+                const salida = req.body.fecha_salida;
+
+                if (new Date(llegada) <= new Date(salida)) {
+                  throw new Error('La fecha de llegada debe ser posterior a la fecha de salida');
+                }
+            
+                return true;
+            }
+        ),
     body('origen')
         .isString()
         .withMessage('Solo se permite un string')
-        .isLength( { min: 1, max: 50 })
-        .withMessage('Solo se permiten entre 1 y 50 caracteres'),
+        .isLength( { min: 1, max: 100 })
+        .withMessage('Solo se permiten entre 1 y 100 caracteres'),
     body('destino')
         .isString()
         .withMessage('Solo se permite un string')
-        .isLength( { min: 1, max: 50 })
-        .withMessage('Solo se permiten entre 1 y 50 caracteres'),
+        .isLength( { min: 1, max: 100 })
+        .withMessage('Solo se permiten entre 1 y 100 caracteres'),
     body('kilometros')
         .isNumeric( { min: 0, max: 30000 } )
         .withMessage('Solo se permiten números entre 0 y 30000'),
@@ -119,7 +146,17 @@ export const validarViaje = [
         .isString('es-ES')
         .withMessage('Solo se permite un string')
         .isLength({ min: 1, max: 300 })
-        .withMessage('Solo se permiten entre 1 y 300 caracteres')
+        .withMessage('Solo se permiten entre 1 y 300 caracteres'),
+    query('vehiculoId')
+        .isEmpty()
+        .withMessage('No se permite este campo vacío.')
+        .isInt( { min: 1 })
+        .withMessage('Solo se permite números positivos'),
+    query('conductorId')
+        .isEmpty()
+        .withMessage('No se permite este campo vacío.')
+        .isInt( { min: 1 })
+        .withMessage('Solo se permite números positivos')
 ];
 
 // Resultados y manejo

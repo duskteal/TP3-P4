@@ -35,7 +35,7 @@ router.get(
 
         const [vehiculos] = await db.execute('SELECT * FROM vehiculos WHERE id=?', [id]);
 
-        if(vehiculos.length === 0) res.status(404).send('Vehículo no encontrado');
+        if(vehiculos.length === 0) return res.status(404).send('Vehículo no encontrado');
 
         return res.status(200).json(vehiculos[0]);
 
@@ -55,14 +55,82 @@ router.post(
 
         const { marca, modelo, patente, anio, capacidad_carga } = req.body;
 
-        const [nuevoVehiculo] = await db.execute(
+        const [consultarPatenteExistente] = await db.execute('SELECT patente FROM vehiculos WHERE patente=?', [patente])
+
+        if(consultarPatenteExistente.length !== 0) {
+            return res.status(400).send('Ya existe un vehículo con esa patente.');
+        }
+        
+
+        const [cargaVehiculo] = await db.execute(
             'INSERT INTO vehiculos (marca, modelo, patente, anio, capacidad_carga) VALUES (?,?,?,?,?)',
              [marca, modelo, patente, anio, capacidad_carga]);
 
-        // agregar funcion que no permita misma patente
+        return res.status(201).json( { id: cargaVehiculo.insertId, marca, modelo, patente, anio, capacidad_carga });
+    }
+);
 
-        return res.status(201).json(nuevoVehiculo[0]);
+router.put(
+    '/:id',
+    validarAutenticacion,
+    validarId,
+    validarVehiculo,
+    verificarValidaciones,
+    async (req, res) => {
+
+        if (!req.user.esAdmin) {
+            return res.status(403).send("Usuario no autorizado");
+        }
+
+        const id = parseInt(req.params.id);
+
+        const [consultarId] = await db.execute('SELECT * FROM vehiculos WHERE id=?', [id]);
+
+        if(consultarId.length === 0) return res.status(404).send('Vehículo no encontrado');
+
+        const { marca, modelo, patente, anio, capacidad_carga } = req.body;
+
+        const [consultarPatenteExistente] = await db.execute('SELECT patente FROM vehiculos WHERE patente=?', [patente])
+
+        if(consultarPatenteExistente.length !== 0) {
+            return res.status(400).send('Ya existe un vehículo con esa patente.');
+        }
+
+        await db.execute(
+            'UPDATE vehiculos SET marca = ?, modelo = ?, patente = ?, anio = ?, capacidad_carga = ? WHERE id = ?',
+            [marca, modelo, patente, anio, capacidad_carga, id]
+        );
+
+        return res.status(200).json( {id: id, marca, modelo, patente, anio, capacidad_carga });
+    }
+);
+
+router.delete(
+    '/:id',
+    validarAutenticacion,
+    validarId,
+    verificarValidaciones,
+    async (req, res) => {
+
+        if (!req.user.esAdmin) {
+            return res.status(403).send("Usuario no autorizado");
+        }
+
+        const id = parseInt(req.params.id);
+
+        const [consultarId] = await db.execute(
+            "SELECT id FROM vehiculos WHERE id = ?", [id]
+        );
+
+        if (consultarId.length === 0) {
+          return res.status(404).json("Vehículo no encontrado.");
+        }
+        
+        await db.execute('DELETE FROM vehiculos WHERE id=?', [id]);
+
+        return res.status(204).send("Vehículo eliminado.");
     }
 )
+
 
 export default router;

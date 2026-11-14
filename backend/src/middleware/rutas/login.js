@@ -1,5 +1,4 @@
 import express from 'express';
-import { verificarValidaciones } from '../validaciones.js'
 import { db } from '../../config/db.js';
 import { body } from 'express-validator';
 import bcrypt from 'bcrypt';
