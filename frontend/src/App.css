@@ -1,3 +1,150 @@
-h1{
-  color: red;
+*{box-sizing: border-box;}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+  background: #f4f5f7;
+  color: #1f2933;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+.contenido {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  padding: 0.75rem 1.5rem;
+  background: #1d3557;
+  color: #fff;
+}
+
+.navbar .marca {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.navbar nav,
+.navbar .sesion {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.navbar button {
+  background: transparent;
+  color: #fff;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 0.4rem 0.8rem;
+}
+
+.navbar button:hover,
+.navbar button.activo {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.hero {
+  text-align: center;
+  padding: 1.5rem 0;
+}
+
+.hero h1 {
+  margin-bottom: 0.5rem;
+}
+
+.tarjetas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.tarjeta {
+  flex: 1 1 220px;
+  background: #fff;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+.aviso {
+  color: #52606d;
+}
+
+.login {
+  max-width: 380px;
+  margin: 1.5rem auto;
+}
+
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  background: #fff;
+  padding: 1.25rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.campo input,
+.campo select,
+.campo textarea {
+  font: inherit;
+  font-weight: 400;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid #c4cad4;
+  border-radius: 6px;
+}
+
+.error {
+  color: #b42318;
+  font-weight: 400;
+}
+
+.alerta {
+  margin: 0;
+  padding: 0.6rem 0.8rem;
+  border-radius: 6px;
+}
+
+.alerta-error {
+  background: #fde8e8;
+  color: #9b1c1c;
+}
+
+.btn {
+  background: #1d3557;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.55rem 1rem;
+}
+
+.btn:hover {
+  background: #274c80;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }

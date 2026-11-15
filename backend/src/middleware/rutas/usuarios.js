@@ -120,7 +120,7 @@ router.delete(
     }
     await db.execute('DELETE FROM usuarios WHERE id=?', [id]);
 
-    return res.status(204)
+    return res.status(200).send('Usuario eliminado.')
   }
 );
 export default router;

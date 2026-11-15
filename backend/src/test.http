@@ -89,7 +89,7 @@ Content-Type: application/json
 }
 
 ### Actualizar vehículo
-PUT {{url}}/vehiculos/6
+PUT {{url}}/vehiculos/11
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
@@ -102,7 +102,7 @@ Content-Type: application/json
 }
 
 ### Eliminar vehículo
-DELETE {{url}}/vehiculos/8
+DELETE {{url}}/vehiculos/13
 Authorization: Bearer {{token}}
 
 ### Ver listado de conductores
@@ -142,7 +142,7 @@ Content-Type: application/json
 }
 
 ### Eliminar conductor
-DELETE {{url}}/conductores/5
+DELETE {{url}}/conductores/1
 Authorization: Bearer {{token}}
 
 ### Listar viajes
@@ -154,7 +154,7 @@ GET {{url}}/viajes/2
 Authorization: Bearer {{token}}
 
 ### Buscar viajes por ID de vehículo e ID de conductor
-GET {{url}}/viajes?vehiculoId=1&conductorId=5
+GET {{url}}/viajes/./filtrarPor?vehiculoId=1&conductorId=5
 Authorization: Bearer {{token}}
 
 ### Crear viaje
@@ -169,7 +169,7 @@ Content-Type: application/json
     "fecha_llegada": "2026-06-17",
     "origen": "Sepang 1999, Ciudad Autónoma de Buenos Aires",
     "destino": "Mónaco 1988, Purmamarca, Jujuy",
-    "kilometros": 1425.4,
+    "kilometros": 1425.5,
     "observaciones": "El camión venía arrastrando un ovni chocado hace 200 km."    
 }
 

@@ -14,26 +14,6 @@ const router = express.Router();
 router.get(
     '/',
     validarAutenticacion,
-    validarQueryViajes,
-    verificarValidaciones,
-    async (req, res) => {
-
-        const idVeh = parseInt(req.query.vehiculoId);
-        const idCond = parseInt(req.query.conductorId);
-        
-        const [viajes] = await db.execute('SELECT * FROM viajes WHERE vehiculo_id = ? AND conductor_id = ?',
-            [idVeh, idCond]
-        )
-
-        if(viajes.length === 0) return res.status(404).send("No existen viajes con estos parámetros.")
-
-        return res.status(200).json(viajes)
-    }
-);
-
-router.get(
-    '/',
-    validarAutenticacion,
     verificarValidaciones,
     async (req, res) => {
 
@@ -60,6 +40,26 @@ router.get(
 
         return res.status(200).json(viaje[0]);
 
+    }
+);
+
+router.get(
+    '/./filtrarPor',
+    validarAutenticacion,
+    validarQueryViajes,
+    verificarValidaciones,
+    async (req, res) => {
+
+        const idVeh = parseInt(req.query.vehiculoId);
+        const idCond = parseInt(req.query.conductorId);
+
+        const [viajes] = await db.execute('SELECT * FROM viajes WHERE vehiculo_id = ? AND conductor_id = ?',
+            [idVeh, idCond]
+        )
+
+        if(viajes.length === 0) return res.status(404).send("No existen viajes con estos parámetros.")
+
+        return res.status(200).json(viajes)
     }
 );
 

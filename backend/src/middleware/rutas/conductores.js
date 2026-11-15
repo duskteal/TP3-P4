@@ -135,13 +135,24 @@ router.delete(
             "SELECT id FROM conductores WHERE id = ?", [id]
         );
 
+        async function eliminarConductor(){
+            await db.execute('DELETE FROM conductores WHERE id=?', [id]);
+            return res.status(200).send("Conductor eliminado.");
+        }
         if (consultarId.length === 0) {
           return res.status(404).json("Conductor no encontrado.");
         }
-        
-        await db.execute('DELETE FROM conductores WHERE id=?', [id]);
 
-        return res.status(204).send("Conductor eliminado.")
+        
+        try{ await eliminarConductor(id) }
+        catch(err){
+            return res.status(409).json(
+                {
+                msg: "Error: el elemento a borrar presenta conflictos en otras tablas.",
+                err
+                }
+            )
+        }        
     }
 )
 

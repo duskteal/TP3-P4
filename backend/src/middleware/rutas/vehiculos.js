@@ -18,9 +18,9 @@ router.get(
 
         const [vehiculos] = await db.execute('SELECT * FROM vehiculos');
 
-        if(vehiculos.length === 0) res.status(404).send('No hay registro de vehículos');
+        if(vehiculos.length === 0) return res.status(404).send('No hay registro de vehículos');
 
-        res.status(200).json(vehiculos[0]);
+        res.status(200).json(vehiculos);
     }
 );
 
@@ -37,7 +37,7 @@ router.get(
 
         if(vehiculos.length === 0) return res.status(404).send('Vehículo no encontrado');
 
-        return res.status(200).json(vehiculos[0]);
+        return res.status(200).json(vehiculos);
 
     }
 )
@@ -125,12 +125,23 @@ router.delete(
         if (consultarId.length === 0) {
           return res.status(404).json("Vehículo no encontrado.");
         }
-        
-        await db.execute('DELETE FROM vehiculos WHERE id=?', [id]);
 
-        return res.status(204).send("Vehículo eliminado.");
+        async function eliminarVehiculo(){
+            await db.execute('DELETE FROM vehiculos WHERE id=?', [id])
+            res.status(200).send('Vehiculo eliminado.')
+        }
+
+        try{ await eliminarVehiculo(id) }
+        catch(err){
+            return res.status(409).json(
+                {
+                msg: "Error: el elemento a borrar presenta conflictos en otras tablas.",
+                err
+                }
+            )
+        };
     }
-)
+);
 
 
 export default router;

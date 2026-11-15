@@ -8,8 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "backend": "node --env-file=.env --watch backend/src/index.js",
-    "frontend": "node --env-file=.env --watch frontend/src/main.js"
+    "backend": "node --env-file=.env --watch backend/src/index.js"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
