@@ -4,11 +4,32 @@ import {
     validarAutenticacion,
     validarId,
     validarViaje,
-    verificarValidaciones
+    validarQueryViajes,
+    verificarValidaciones,
     }
     from '../validaciones.js';
 
 const router = express.Router();
+
+router.get(
+    '/',
+    validarAutenticacion,
+    validarQueryViajes,
+    verificarValidaciones,
+    async (req, res) => {
+
+        const idVeh = parseInt(req.query.vehiculoId);
+        const idCond = parseInt(req.query.conductorId);
+        
+        const [viajes] = await db.execute('SELECT * FROM viajes WHERE vehiculo_id = ? AND conductor_id = ?',
+            [idVeh, idCond]
+        )
+
+        if(viajes.length === 0) return res.status(404).send("No existen viajes con estos parámetros.")
+
+        return res.status(200).json(viajes)
+    }
+);
 
 router.get(
     '/',
@@ -82,24 +103,6 @@ router.post(
     }
 );
 
-router.get(
-    '/',
-    validarAutenticacion,
-    validarViaje,
-    verificarValidaciones,
-    async (req, res) => {
 
-        const idVeh = parseInt(req.query.vehiculoId);
-        const idCond = parseInt(req.query.conductorId);
-
-        const [viajes] = await db.execute('SELECT * FROM viajes WHERE id_vehiculo = ? AND id_conductor = ?',
-            [idVeh, idCond]
-        )
-
-        if(viajes.length === 0) return res.status(404).send("No existen viajes con estos parámetros.")
-
-        return res.status(200).json(viajes)
-    } // reparar, el endpoint muestra todo
-);
 
 export default router;

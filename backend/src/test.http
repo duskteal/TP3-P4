@@ -154,7 +154,7 @@ GET {{url}}/viajes/2
 Authorization: Bearer {{token}}
 
 ### Buscar viajes por ID de vehículo e ID de conductor
-GET {{url}}/viajes?vehiculoId=w&conductorId=5
+GET {{url}}/viajes?vehiculoId=1&conductorId=5
 Authorization: Bearer {{token}}
 
 ### Crear viaje
@@ -169,7 +169,7 @@ Content-Type: application/json
     "fecha_llegada": "2026-06-17",
     "origen": "Sepang 1999, Ciudad Autónoma de Buenos Aires",
     "destino": "Mónaco 1988, Purmamarca, Jujuy",
-    "kilometros": 1425,
+    "kilometros": 1425.4,
     "observaciones": "El camión venía arrastrando un ovni chocado hace 200 km."    
 }
 

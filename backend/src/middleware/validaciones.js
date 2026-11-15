@@ -146,18 +146,21 @@ export const validarViaje = [
         .isString('es-ES')
         .withMessage('Solo se permite un string')
         .isLength({ min: 1, max: 300 })
-        .withMessage('Solo se permiten entre 1 y 300 caracteres'),
-    query('vehiculoId')
-        .isEmpty()
+        .withMessage('Solo se permiten entre 1 y 300 caracteres')
+];
+
+export const validarQueryViajes = [
+        query('vehiculoId')
+        .notEmpty()
         .withMessage('No se permite este campo vacío.')
-        .isInt( { min: 1 })
+        .isInt( { min: 1 } )
         .withMessage('Solo se permite números positivos'),
     query('conductorId')
-        .isEmpty()
+        .notEmpty()
         .withMessage('No se permite este campo vacío.')
-        .isInt( { min: 1 })
+        .isInt( { min: 1 } )
         .withMessage('Solo se permite números positivos')
-];
+]
 
 // Resultados y manejo
 export const verificarValidaciones = (req, res, next) => {
