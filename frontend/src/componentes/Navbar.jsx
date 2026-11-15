@@ -1,4 +1,8 @@
-const ENLACES = [{ id: 'inicio', texto: 'Inicio', publico: true }]
+const ENLACES = [
+  { id: 'inicio', texto: 'Inicio', publico: true },
+  { id: 'vehiculos', texto: 'Vehículos' },
+  { id: 'conductores', texto: 'Conductores' },
+]
 
 function Navbar({ pagina, sesion, irA, onLogout }) {
   const visibles = ENLACES.filter(

@@ -20,7 +20,7 @@ router.get(
 
         if(vehiculos.length === 0) return res.status(404).send('No hay registro de vehículos');
 
-        res.status(200).json(vehiculos);
+        return res.status(200).json(vehiculos);
     }
 );
 
@@ -90,7 +90,10 @@ router.put(
 
         const { marca, modelo, patente, anio, capacidad_carga } = req.body;
 
-        const [consultarPatenteExistente] = await db.execute('SELECT patente FROM vehiculos WHERE patente=?', [patente])
+        const [consultarPatenteExistente] = await db.execute(
+            'SELECT patente FROM vehiculos WHERE patente=? AND id<>?',
+            [patente, id]
+        )
 
         if(consultarPatenteExistente.length !== 0) {
             return res.status(400).send('Ya existe un vehículo con esa patente.');

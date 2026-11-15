@@ -3,9 +3,11 @@ import './App.css'
 import Navbar from './componentes/Navbar.jsx'
 import Inicio from './pages/Inicio.jsx'
 import Login from './pages/Login.jsx'
+import Vehiculos from './pages/Vehiculos.jsx'
+import Conductores from './pages/Conductores.jsx'
 import { getSesion, guardarSesion, borrarSesion } from './services/api.js'
 
-const PROTEGIDAS = []
+const PROTEGIDAS = ['vehiculos', 'conductores']
  
  function App() {
   const [count, setCount] = useState(0)
@@ -35,17 +37,21 @@ const PROTEGIDAS = []
   }
 
   let contenido
-  if (pagina === 'login' || (PROTEGIDAS.includes(pagina) && !sesion)) {
-    contenido = <Login onLogin={iniciarSesion} />
-  } else {
-    contenido = <Inicio sesion={sesion} irA={setPagina} />
-  }
+   if (pagina === 'login' || (PROTEGIDAS.includes(pagina) && !sesion)) {
+     contenido = <Login onLogin={iniciarSesion} />
+   } else if (pagina === 'vehiculos') {
+    contenido = <Vehiculos sesion={sesion} />
+   } else if (pagina === 'conductores') {
+    contenido = <Conductores sesion={sesion} />
+   } else {
+     contenido = <Inicio sesion={sesion} irA={setPagina} />
+   }
  
    return (
      <>
+      <Navbar pagina={pagina} sesion={sesion} irA={setPagina} onLogout={cerrarSesion} />
       <main className="contenido">{contenido}</main>
      </>
    )
  }
-
 export default App

@@ -18,9 +18,9 @@ router.get(
 
         const [conductores] = await db.execute('SELECT * FROM conductores');
 
-        if(conductores.length === 0) res.status(404).send('No hay registros de conductores.');
+        if(conductores.length === 0) return res.status(404).send('No hay registros de conductores.');
 
-        res.status(200).json(conductores);
+        return res.status(200).json(conductores);
     }
 );
 
@@ -86,12 +86,6 @@ router.put(
     verificarValidaciones,
     async (req, res) => {
 
-        const id = parseInt(req.params.id);
-
-        const [consultarId] = await db.execute('SELECT * FROM conductores WHERE id=?', [id]);
-
-        if(consultarId.length === 0) return res.status(404).send('Conductor no encontrado');
-
         const {
             nombre,
             apellido,
@@ -99,6 +93,17 @@ router.put(
             numero_licencia, 
             fecha_alta_licencia,
             fecha_vencimiento_licencia} = req.body;
+
+        const id = parseInt(req.params.id);
+
+        const [consultarId] = await db.execute(
+            'SELECT * FROM conductores WHERE (numero_documento=? OR numero_licencia=?) AND id<>?',
+            [numero_documento, numero_licencia, id]
+         )
+
+        if(consultarId.length === 0) return res.status(404).send('Conductor no encontrado');
+
+        
 
         const [consultarConductorExistente] = await db.execute(
             'SELECT * FROM conductores WHERE numero_documento=? OR numero_licencia=?',

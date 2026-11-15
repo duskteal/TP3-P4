@@ -148,3 +148,80 @@ button {
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+.alerta-ok {
+  background: #e3f6e8;
+  color: #1b6b35;
+}
+
+.grilla {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+}
+
+.grilla .campo {
+  flex: 1 1 200px;
+}
+
+.acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.btn-secundario {
+  background: #e4e7eb;
+  color: #1f2933;
+}
+
+.btn-secundario:hover {
+  background: #cbd2d9;
+}
+
+.btn-peligro {
+  background: #b42318;
+}
+
+.btn-peligro:hover {
+  background: #912018;
+}
+
+.tabla-contenedor {
+  overflow-x: auto;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 0.6rem 0.8rem;
+  text-align: left;
+  border-bottom: 1px solid #e4e7eb;
+  white-space: nowrap;
+}
+
+th {
+  background: #f0f2f5;
+  font-size: 0.85rem;
+}
+
+
+td.acciones {
+  display: table-cell;
+}
+
+td.acciones .btn {
+  margin-right: 0.4rem;
+}
+
+.vencida {
+  color: #b42318;
+  font-weight: 600;
+}
