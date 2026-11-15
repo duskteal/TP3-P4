@@ -137,7 +137,7 @@ function Conductores({ sesion }) {
       setRecarga((r) => r + 1)
     } catch (err) {
       setError(
-        err.status === 500
+        err.status === 409 || err.status === 500
           ? 'No se pudo eliminar. Es probable que el conductor tenga viajes asociados.'
           : err.message,
       )

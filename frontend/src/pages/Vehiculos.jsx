@@ -27,11 +27,11 @@ function validar(f) {
 
   if (!f.capacidad_carga) e.capacidad_carga = 'La capacidad de carga es obligatoria'
   else if (
-    !/^\d+(\.\d+)?$/.test(f.capacidad_carga) ||
+    !/^\d+$/.test(f.capacidad_carga) ||
     f.capacidad_carga.length > 6 ||
     Number(f.capacidad_carga) > 150000
   )
-    e.capacidad_carga = 'Número entre 0 y 150000 (máximo 6 caracteres)'
+    e.capacidad_carga = 'Número entero entre 0 y 150000'
 
   return e
 }
@@ -128,7 +128,7 @@ function Vehiculos({ sesion }) {
       setRecarga((r) => r + 1)
     } catch (err) {
       setError(
-        err.status === 500
+        err.status === 409 || err.status === 500
           ? 'No se pudo eliminar. Es probable que el vehículo tenga viajes asociados.'
           : err.message,
       )

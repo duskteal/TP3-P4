@@ -225,3 +225,36 @@ td.acciones .btn {
   color: #b42318;
   font-weight: 600;
 }
+
+.formulario + h3 {
+  margin-top: 2rem;
+}
+
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+}
+
+.filtros .campo {
+  flex: 1 1 240px;
+}
+
+.resumen {
+  background: #fff;
+  border-left: 4px solid #1d3557;
+  border-radius: 6px;
+  padding: 0.7rem 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+td.observaciones {
+  white-space: normal;
+  min-width: 200px;
+}
+
+.casilla {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}

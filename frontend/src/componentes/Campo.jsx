@@ -1,6 +1,6 @@
 function Campo({ label, error, children }) {
   return (
-    <label className="Campo">
+    <label className="campo">
       <span>{label}</span>
       {children}
       {error && <small className="error">{error}</small>}

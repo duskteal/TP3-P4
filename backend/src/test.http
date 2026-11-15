@@ -154,7 +154,15 @@ GET {{url}}/viajes/2
 Authorization: Bearer {{token}}
 
 ### Buscar viajes por ID de vehículo e ID de conductor
-GET {{url}}/viajes/./filtrarPor?vehiculoId=1&conductorId=5
+GET {{url}}/viajes/filtrarPor?vehiculoId=1&conductorId=5
+Authorization: Bearer {{token}}
+
+### Historial de viajes solo por vehículo
+GET {{url}}/viajes/filtrarPor?vehiculoId=1
+Authorization: Bearer {{token}}
+
+### Historial de viajes solo por conductor
+GET {{url}}/viajes/filtrarPor?conductorId=5
 Authorization: Bearer {{token}}
 
 ### Crear viaje
@@ -173,4 +181,37 @@ Content-Type: application/json
     "observaciones": "El camión venía arrastrando un ovni chocado hace 200 km."    
 }
 
-### No se puede editar ni borrar un viaje. No hay PUT ni DELETE.
+### Crear viaje sin observaciones (es opcional)
+POST {{url}}/viajes
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "vehiculo_id": 2,
+    "conductor_id": 1,
+    "fecha_salida": "2026-07-01",
+    "fecha_llegada": "2026-07-03",
+    "origen": "Rosario, Santa Fe",
+    "destino": "Mendoza, Mendoza",
+    "kilometros": 850.3
+}
+
+### Editar viaje (solo admin)
+PUT {{url}}/viajes/2
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "vehiculo_id": 2,
+    "conductor_id": 1,
+    "fecha_salida": "2026-06-15",
+    "fecha_llegada": "2026-06-18",
+    "origen": "Sepang 1999, Ciudad Autónoma de Buenos Aires",
+    "destino": "Mónaco 1988, Purmamarca, Jujuy",
+    "kilometros": 1430.2,
+    "observaciones": "Viaje con demora por clima."
+}
+
+### Eliminar viaje (solo admin)
+DELETE {{url}}/viajes/3
+Authorization: Bearer {{token}}

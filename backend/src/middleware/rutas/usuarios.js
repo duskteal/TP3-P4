@@ -1,5 +1,5 @@
 import express from 'express';
-import { db } from '../../config/db.js';
+import { db, reiniciarAutoIncremento } from '../../config/db.js';
 import bcrypt from "bcrypt";
 import { 
     validarAutenticacion,
@@ -58,6 +58,8 @@ router.post('/', validarAutenticacion, validarUsuario, verificarValidaciones, as
 
     const hashPassword = await bcrypt.hash(password, 12);
 
+    await reiniciarAutoIncremento('usuarios');
+
     const [resultado] = await db.execute(
       "INSERT INTO usuarios (nombre, email, hashPassword, esAdmin) VALUES (?,?,?,?)",
       [nombre, email, hashPassword, esAdmin],
@@ -103,6 +105,7 @@ router.delete(
   '/:id',
   validarAutenticacion,
   validarId,
+  verificarValidaciones,
   async (req, res) => {
 
     if (!req.user.esAdmin) {
@@ -110,6 +113,11 @@ router.delete(
     };
 
     const id = parseInt(req.params.id);
+
+    // Un administrador no puede eliminar su propia cuenta
+    if (req.user.userId === id) {
+      return res.status(400).send("No podés eliminar tu propio usuario.");
+    }
 
     const [usuarios] = await db.execute(
       "SELECT id FROM usuarios WHERE id = ?", [id]

@@ -1,5 +1,5 @@
 import express from 'express';
-import { db } from '../../config/db.js';
+import { db, reiniciarAutoIncremento } from '../../config/db.js';
 import {
     validarAutenticacion,
     validarId,
@@ -37,7 +37,7 @@ router.get(
 
         if(vehiculos.length === 0) return res.status(404).send('Vehículo no encontrado');
 
-        return res.status(200).json(vehiculos);
+        return res.status(200).json(vehiculos[0]);
 
     }
 )
@@ -61,6 +61,8 @@ router.post(
             return res.status(400).send('Ya existe un vehículo con esa patente.');
         }
         
+
+        await reiniciarAutoIncremento('vehiculos');
 
         const [cargaVehiculo] = await db.execute(
             'INSERT INTO vehiculos (marca, modelo, patente, anio, capacidad_carga) VALUES (?,?,?,?,?)',

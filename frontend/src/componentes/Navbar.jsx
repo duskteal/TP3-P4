@@ -2,6 +2,8 @@ const ENLACES = [
   { id: 'inicio', texto: 'Inicio', publico: true },
   { id: 'vehiculos', texto: 'Vehículos' },
   { id: 'conductores', texto: 'Conductores' },
+  { id: 'viajes', texto: 'Viajes' },
+  { id: 'usuarios', texto: 'Usuarios', admin: true },
 ]
 
 function Navbar({ pagina, sesion, irA, onLogout }) {
@@ -10,7 +12,7 @@ function Navbar({ pagina, sesion, irA, onLogout }) {
   )
 
   return (
-    <header className="Navbar">
+    <header className="navbar">
       <span className="marca">Logística UTN SRL</span>
 
       <nav>

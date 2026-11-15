@@ -1,4 +1,3 @@
-import express from 'express';
 import { validationResult, body, param, query } from 'express-validator';
 import passport from 'passport'
 
@@ -150,19 +149,16 @@ export const validarViaje = [
 ];
 
 export const validarQueryViajes = [
-        query('vehiculoId')
-        .notEmpty()
-        .withMessage('No se permite este campo vacío.')
+    query('vehiculoId')
+        .optional()
         .isInt( { min: 1 } )
         .withMessage('Solo se permite números positivos'),
     query('conductorId')
-        .notEmpty()
-        .withMessage('No se permite este campo vacío.')
+        .optional()
         .isInt( { min: 1 } )
         .withMessage('Solo se permite números positivos')
 ]
 
-// Resultados y manejo
 export const verificarValidaciones = (req, res, next) => {
     const resultadoValidaciones = validationResult(req);
     

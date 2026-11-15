@@ -1,5 +1,5 @@
 import express from 'express';
-import { db } from '../../config/db.js';
+import { db, reiniciarAutoIncremento } from '../../config/db.js';
 import {
     validarAutenticacion,
     validarId,
@@ -70,6 +70,8 @@ router.post(
             return res.status(400).send('Ya existe un conductor con ese número de documento o licencia.');
         }
 
+        await reiniciarAutoIncremento('conductores');
+
         const [nuevoConductor] = await db.execute(
             'INSERT INTO conductores (nombre, apellido, numero_documento, numero_licencia, fecha_alta_licencia, fecha_vencimiento_licencia) VALUES (?,?,?,?,?,?)',
              [nombre, apellido, numero_documento, numero_licencia, fecha_alta_licencia, fecha_vencimiento_licencia]);
@@ -96,18 +98,13 @@ router.put(
 
         const id = parseInt(req.params.id);
 
-        const [consultarId] = await db.execute(
-            'SELECT * FROM conductores WHERE (numero_documento=? OR numero_licencia=?) AND id<>?',
-            [numero_documento, numero_licencia, id]
-         )
+        const [consultarId] = await db.execute('SELECT id FROM conductores WHERE id=?', [id]);
 
         if(consultarId.length === 0) return res.status(404).send('Conductor no encontrado');
 
-        
-
         const [consultarConductorExistente] = await db.execute(
-            'SELECT * FROM conductores WHERE numero_documento=? OR numero_licencia=?',
-            [numero_documento, numero_licencia]
+            'SELECT id FROM conductores WHERE (numero_documento=? OR numero_licencia=?) AND id<>?',
+            [numero_documento, numero_licencia, id]
         )
 
         if(consultarConductorExistente.length !== 0) {

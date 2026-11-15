@@ -5,15 +5,16 @@ import Inicio from './pages/Inicio.jsx'
 import Login from './pages/Login.jsx'
 import Vehiculos from './pages/Vehiculos.jsx'
 import Conductores from './pages/Conductores.jsx'
+import Viajes from './pages/Viajes.jsx'
+import Usuarios from './pages/Usuarios.jsx'
 import { getSesion, guardarSesion, borrarSesion } from './services/api.js'
 
-const PROTEGIDAS = ['vehiculos', 'conductores']
- 
- function App() {
-  const [count, setCount] = useState(0)
+
+const PROTEGIDAS = ['vehiculos', 'conductores', 'viajes', 'usuarios']
+
+function App() {
   const [sesion, setSesion] = useState(getSesion)
   const [pagina, setPagina] = useState('inicio')
-
 
   useEffect(() => {
     function sesionExpirada() {
@@ -37,21 +38,26 @@ const PROTEGIDAS = ['vehiculos', 'conductores']
   }
 
   let contenido
-   if (pagina === 'login' || (PROTEGIDAS.includes(pagina) && !sesion)) {
-     contenido = <Login onLogin={iniciarSesion} />
-   } else if (pagina === 'vehiculos') {
+  if (pagina === 'login' || (PROTEGIDAS.includes(pagina) && !sesion)) {
+    contenido = <Login onLogin={iniciarSesion} />
+  } else if (pagina === 'vehiculos') {
     contenido = <Vehiculos sesion={sesion} />
-   } else if (pagina === 'conductores') {
+  } else if (pagina === 'conductores') {
     contenido = <Conductores sesion={sesion} />
-   } else {
-     contenido = <Inicio sesion={sesion} irA={setPagina} />
-   }
- 
-   return (
-     <>
+  } else if (pagina === 'viajes') {
+    contenido = <Viajes sesion={sesion} />
+  } else if (pagina === 'usuarios') {
+    contenido = <Usuarios sesion={sesion} />
+  } else {
+    contenido = <Inicio sesion={sesion} irA={setPagina} />
+  }
+
+  return (
+    <>
       <Navbar pagina={pagina} sesion={sesion} irA={setPagina} onLogout={cerrarSesion} />
       <main className="contenido">{contenido}</main>
-     </>
-   )
- }
+    </>
+  )
+}
+
 export default App

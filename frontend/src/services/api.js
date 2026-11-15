@@ -29,6 +29,7 @@ function mensajeDeError(status, datos) {
   if (datos && Array.isArray(datos.errores)) {
     return datos.errores.map((e) => `${e.path}: ${e.msg}`).join(' | ')
   }
+  if (datos && typeof datos.msg === 'string') return datos.msg
   if (status === 403) return 'No tenés permisos para realizar esta acción.'
   if (status >= 500) return 'Error interno del servidor.'
   if (typeof datos === 'string' && datos && !datos.startsWith('<')) return datos
@@ -75,7 +76,6 @@ async function request(ruta, { method = 'GET', body, auth = true } = {}) {
   return data
 }
 
-// ---- Funciones que usan las páginas ----
 export const login = (email, password) =>
   request('/login', { method: 'POST', body: { email, password }, auth: false })
 
